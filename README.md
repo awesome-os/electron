@@ -4,6 +4,28 @@
 
 ---
 
+## Quick Install & Usage
+
+### Install via `pnpm` (or release tarball)
+
+```powershell
+pnpm add github:awesome-os/electron
+```
+
+Or download the latest SHA-256 verified archive from [`Releases`](https://github.com/awesome-os/electron/releases/latest).
+
+### Usage & Verification
+
+```powershell
+# Launch an Electron app via shared debloated cas-v1 Electron (or --sectium)
+node src/cli.mts ./my-electron-app
+
+# Verify locally (Node.js 22+)
+node --test
+```
+
+---
+
 ## Which Awesome-OS Electron Repo Should You Use?
 
 | Repo | What It Is | Footprint | Best For |
