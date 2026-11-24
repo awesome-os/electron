@@ -6,7 +6,7 @@
 
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, renameSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -130,4 +130,66 @@ export async function ensureElectronBinary(): Promise<{
   }
 
   return { entry, installDir, executablePath, cacheHit: false };
+}
+
+export interface GhostAbiAddonResult {
+  entry: ElectronCasEntry;
+  addonPath: string;
+  cacheDir: string;
+  cacheHit: boolean;
+}
+
+export function getGhostAbiAssetKey(): string {
+  if (process.platform === 'win32') return 'b8g-ghost-abi-win64.node';
+  if (process.platform === 'darwin') return 'b8g-ghost-abi-macos-arm64.node';
+  return process.arch === 'arm64' ? 'b8g-ghost-abi-linux-arm64.node' : 'b8g-ghost-abi-linux-x64.node';
+}
+
+export async function resolveGhostAbiEntry(
+  assetKey = getGhostAbiAssetKey(),
+): Promise<ElectronCasEntry> {
+  const idx = await fetchGhostIndex();
+  const entry = idx.entries[assetKey];
+  if (!entry) {
+    throw new Error(
+      `Ghost ABI addon "${assetKey}" not found in b8g-ghost cas-v1 index (${idx.total_entries} entries)`,
+    );
+  }
+  return entry;
+}
+
+export async function ensureGhostAbiAddonPath(
+  assetKey = getGhostAbiAssetKey(),
+): Promise<GhostAbiAddonResult> {
+  const entry = await resolveGhostAbiEntry(assetKey);
+  const cacheDir = getGhostCacheDir();
+  const addonDir = join(cacheDir, 'ghost-abi', entry.sha256);
+  const addonPath = join(addonDir, entry.filename);
+
+  if (existsSync(addonPath)) {
+    return { entry, addonPath, cacheDir, cacheHit: true };
+  }
+
+  const url = entry.download_url || `${GHOST_CAS_BASE_URL}/${entry.sha256}`;
+  const res = await fetch(url, {
+    redirect: 'follow',
+    headers: { 'User-Agent': 'awesome-os-electron/0.1.0' },
+  });
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} hydrating ${entry.filename} from ${url}`);
+  }
+  const buf = Buffer.from(await res.arrayBuffer());
+  const actual = createHash('sha256').update(buf).digest('hex');
+  if (actual !== entry.sha256) {
+    throw new Error(
+      `SHA-256 mismatch for ${entry.filename}: expected ${entry.sha256}, got ${actual}`,
+    );
+  }
+
+  mkdirSync(addonDir, { recursive: true });
+  const tmp = `${addonPath}.${process.pid}.tmp`;
+  writeFileSync(tmp, buf);
+  renameSync(tmp, addonPath);
+
+  return { entry, addonPath, cacheDir, cacheHit: false };
 }

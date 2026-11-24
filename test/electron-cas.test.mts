@@ -3,7 +3,9 @@ import { existsSync } from 'node:fs';
 import test from 'node:test';
 import {
   ensureElectronBinary,
+  ensureGhostAbiAddonPath,
   getElectronAssetKey,
+  getGhostAbiAssetKey,
   resolveElectronEntry,
 } from '../src/index.mts';
 
@@ -27,5 +29,18 @@ test('hydrates and extracts real upstream Electron binary once into shared Ghost
 
   const second = await ensureElectronBinary();
   assert.equal(second.executablePath, first.executablePath);
+  assert.equal(second.cacheHit, true);
+});
+
+test('hydrates b8g-ghost-abi.node live from awesome-os/b8g-ghost cas-v1 with cache hit', async () => {
+  const expectedKey = getGhostAbiAssetKey();
+  const first = await ensureGhostAbiAddonPath();
+  assert.equal(first.entry.filename, expectedKey);
+  assert.match(first.entry.sha256, /^[a-f0-9]{64}$/);
+  assert.equal(existsSync(first.addonPath), true);
+  assert.ok(first.addonPath.endsWith('.node'), `Expected .node addon path, got ${first.addonPath}`);
+
+  const second = await ensureGhostAbiAddonPath();
+  assert.equal(second.addonPath, first.addonPath);
   assert.equal(second.cacheHit, true);
 });

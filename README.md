@@ -28,20 +28,38 @@ Replace npm's `electron` in your `package.json`:
 Or run directly:
 
 ```bash
-# Hydrates debloated rolling-latest Electron once into ~/.b8g/cas/electron/<sha256>/ and launches your app:
+# Default / --upstream: hydrates debloated rolling-latest Electron + b8g-ghost-abi.node once
+# into ~/.b8g/cas/ and launches your app with B8G_GHOST_ABI_PATH + B8G_GHOST_CAS_DIR set:
 node src/cli.mts ./my-electron-app
+node src/cli.mts --upstream ./my-electron-app
+
+# Hybrid --sectium routing (or ELECTRON_BACKEND=sectium):
+# Routes to `sectium-electron` when installed, or prints install guidance:
+node src/cli.mts --sectium ./my-electron-app
 ```
 
-Programmatic API (matches npm `electron` returning the executable path):
+### Zero-`node-gyp` `B8G_ARENA_V1` Access (`B8G_GHOST_ABI_PATH`)
+
+Even unmodified upstream Electron apps automatically receive the pre-hydrated, SHA-256-verified `b8g-ghost-abi-<os>.node` N-API addon in their environment:
+
+- `B8G_GHOST_ABI_PATH` — absolute path to `~/.b8g/cas/ghost-abi/<sha256>/b8g-ghost-abi-<os>.node`
+- `B8G_GHOST_CAS_DIR` — shared Ghost CAS directory (`~/.b8g/cas`)
+
+Programmatic API (matches npm `electron` returning the executable path, plus Ghost ABI hydration):
 
 ```ts
-import { ensureElectronBinary, resolveElectronEntry } from 'electron';
+import {
+  ensureElectronBinary,
+  ensureGhostAbiAddonPath,
+  resolveElectronEntry,
+} from 'electron';
 
 const entry = await resolveElectronEntry();
 console.log(`Rolling-latest Electron ${entry.version} (${entry.bytes} B debloated zst vs ${entry.raw_bytes} B upstream zip)`);
 
 const { executablePath, cacheHit } = await ensureElectronBinary();
-console.log('Hydrated binary:', executablePath, { cacheHit });
+const { addonPath } = await ensureGhostAbiAddonPath();
+console.log('Hydrated binary:', executablePath, { cacheHit, addonPath });
 ```
 
 ---
