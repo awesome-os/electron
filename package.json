@@ -1,0 +1,35 @@
+{
+  "name": "electron",
+  "version": "0.1.0",
+  "description": "Drop-in rolling-latest debloated Electron hydrated once from awesome-os/b8g-ghost cas-v1 (Keep-Last-5, zero per-app 250 MB duplication)",
+  "type": "module",
+  "main": "./src/index.mts",
+  "module": "./src/index.mts",
+  "types": "./src/index.mts",
+  "bin": {
+    "electron": "./src/cli.mts"
+  },
+  "exports": {
+    ".": "./src/index.mts",
+    "./hydrate": "./src/hydrate.mts"
+  },
+  "scripts": {
+    "test": "node --test test/electron-cas.test.mts"
+  },
+  "keywords": [
+    "electron",
+    "b8g-ghost",
+    "awesome-os",
+    "cas",
+    "debloated",
+    "rolling-latest"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awesome-os/electron.git"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}
