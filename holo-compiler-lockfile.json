@@ -1,0 +1,52 @@
+{
+  "schema": "holo-compiler-lockfile-v1",
+  "abiMagic": "0x33564742",
+  "casLayout": "v11",
+  "repo": "awesome-os/electron",
+  "targets": [
+    "win64",
+    "linux-x64",
+    "linux-arm64",
+    "macos-arm64",
+    "wasm32-wasi"
+  ],
+  "generatedAt": "2026-11-24T23:53:02.473Z",
+  "dependencies": [
+    {
+      "id": "awesome-os/electron/electron-v0.2.0.tar.zst",
+      "kind": "object",
+      "version": "v0.2.0",
+      "target": "any",
+      "sha512": "a236fac013aaf5d5418d1cba9fecd5b2093f393d72f8065e2c7de8ee3589777acb7c8c0962c38fca25b7ccc3e7855db03da7ba29542cc45dab7f4e5a7eadb402",
+      "size": 7399,
+      "executable": false,
+      "blob": "v11/files/a2/a236fac013aaf5d5418d1cba9fecd5b2093f393d72f8065e2c7de8ee3589777acb7c8c0962c38fca25b7ccc3e7855db03da7ba29542cc45dab7f4e5a7eadb402",
+      "url": "https://github.com/awesome-os/electron/releases/download/v0.2.0/electron-v0.2.0.tar.zst",
+      "dependencies": []
+    },
+    {
+      "id": "awesome-os/electron/SHA256SUMS.txt",
+      "kind": "object",
+      "version": "v0.2.0",
+      "target": "any",
+      "sha512": "5289028b1f0d7a111a7060d5148084ac09d9e768fb8d2d98ef27771d66542aebd858bdfb67d4af83bc5591d6860bf1e45b75b4a4d2deb9b2cad2a6860b75d686",
+      "size": 90,
+      "executable": false,
+      "blob": "v11/files/52/5289028b1f0d7a111a7060d5148084ac09d9e768fb8d2d98ef27771d66542aebd858bdfb67d4af83bc5591d6860bf1e45b75b4a4d2deb9b2cad2a6860b75d686",
+      "url": "https://github.com/awesome-os/electron/releases/download/v0.2.0/SHA256SUMS.txt",
+      "dependencies": []
+    },
+    {
+      "id": "awesome-os/electron/SHA512SUMS.txt",
+      "kind": "object",
+      "version": "v0.2.0",
+      "target": "any",
+      "sha512": "0c4eee3e155e66136a5e75432667f8bcb56a5a17e863a4a799fd2ea6dde9b7669b51c87606ea64e7e990f91d32d2f11b6cdbb4ff5e2f7a6cbdbba060e5e9254a",
+      "size": 154,
+      "executable": false,
+      "blob": "v11/files/0c/0c4eee3e155e66136a5e75432667f8bcb56a5a17e863a4a799fd2ea6dde9b7669b51c87606ea64e7e990f91d32d2f11b6cdbb4ff5e2f7a6cbdbba060e5e9254a",
+      "url": "https://github.com/awesome-os/electron/releases/download/v0.2.0/SHA512SUMS.txt",
+      "dependencies": []
+    }
+  ]
+}
