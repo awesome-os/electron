@@ -99,3 +99,13 @@ Because `awesome-os/electron` runs **unmodified upstream Electron**, all officia
 Upstream Electron releases are automatically ingested and debloated into [`awesome-os/b8g-ghost @ cas-v1`](https://github.com/awesome-os/b8g-ghost/releases/tag/cas-v1) daily:
 - Default always resolves to **rolling-latest** stable Electron.
 - The last **5** versions are retained in `manifests/index.json` (`history`) for pinned rollbacks (`ELECTRON_GHOST_SHA256=<sha256>`).
+
+## Quick Install & Run (Windows / Linux / macOS)
+
+```sh
+# Install / hydrate from v11 CAS via holo-pm
+holo-pm install repository://github.com/awesome-os/electron@main
+
+# Or project & run directly via holo-project (0-byte hardlink)
+holo-project "project://node/electron?from=repository://github.com/awesome-os/electron@main"
+```
