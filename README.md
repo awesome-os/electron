@@ -1,3 +1,6 @@
+> [!NOTE]
+> Consolidated into https://github.com/awesome-os/chromium-baseline
+
 # `awesome-os/electron`
 
 > **100% unmodified upstream Electron — debloated, rolling-latest (Keep-Last-5), and hydrated ONCE per machine from [`awesome-os/b8g-ghost @ cas-v1`](https://github.com/awesome-os/b8g-ghost/releases/tag/cas-v1) instead of duplicating `250 MB` into every `node_modules/electron/dist/`.**
